@@ -1,4 +1,4 @@
-package com.codeoftheweb.salvo;
+package com.codeoftheweb.salvo.controllers;
 //import com.sun.javafx.collections.MappingChange;
 import com.codeoftheweb.salvo.models.*;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
@@ -7,11 +7,11 @@ import com.codeoftheweb.salvo.repositories.GameRepository;
 import com.codeoftheweb.salvo.repositories.PlayerRepository;
 import com.codeoftheweb.salvo.repositories.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -121,6 +121,16 @@ private Map<String,Object> mapaDePlayers(Player n){
         return playerRepository.findAll().stream().map(e -> e.makePlayerScoreDTO()).collect(Collectors.toList());
     }
 
-
+ /*   @RequestMapping("/players")
+    public ResponseEntity <Object> addPlayer(@RequestParam String userName, @RequestParam String password){
+    if (userName.isEmpty() || password.isEmpty()){
+        return new ResponseEntity<>("No name or password given", HttpStatus.FORBIDDEN);
+    }
+    if (playerRepository.findByUserName(userName).orElse(null) != null){
+        return new ResponseEntity<>("Name already in use", HttpStatus.CONFLICT);
+    }
+    playerRepository.save(new Player(userName,password));
+    return new ResponseEntity<>("Player created", HttpStatus.CREATED);
+}*/
 
 }

@@ -4,6 +4,9 @@ $(function () {
   $("#login-btn").click(function () {
     login(event);
   });
+  $("#signin-btn").click(function () {
+      signin(event);
+    });
   $("#logout-btn").click(function () {
     logout(event);
   });
@@ -80,6 +83,34 @@ function login(evt) {
             });
     };
 
+function signin (evt){
+evt.preventDefault();
+  var form = evt.target.form;
+  console.log(form)
+  $.post("/api/players", {
+  email: form["name"].value,
+  password: form["password"].value
+  })
+  .done(function (data) {
+        console.log("successful sign in!!");
+         $.post("/api/login", {
+              name: form["name"].value,
+              password: form["password"].value
+            })
+            .done(function (data) {
+                  console.log("successful login!!");
+                    showLogin(false);
+                    $("#player").text("Welcome " + form["name"].value + "!");
+                })
+      })
+       .fail(function( jqXHR, textStatus ) {
+                alert( "Failed: " + textStatus );
+              });
+ };
+
+
+
+
 
 function logout(evt) {
   evt.preventDefault();
@@ -97,11 +128,13 @@ function showLogin(show) {
   if (show) {
     $("#login-info").show();
     $("#login-btn").show();
+    $("#signin-btn").show();
     $("#logout-btn").hide();
     $("#player").hide();
   } else {
     $("#logout-btn").show();
     $("#login-info").hide();
+    $("#signin-btn").hide();
     $("#login-btn").hide();
     $("#player").show();
   }
